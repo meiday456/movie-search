@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 import userImg from "../public/images/userImg.jpg"
+import {useEffect, useState} from "react";
+import {menu} from "../interface/CommonInterface";
 
 const StyledHeader = styled.header`
   padding: 20px 40px;
@@ -62,8 +64,9 @@ const StyledNavUser = styled.a`
   &:hover {
     transform: scale(1.2);
   }
+
   @media only screen and (max-width: 600px) {
-    right : 20px;
+    right: 20px;
   }
 `
 const StyledNavUserImg = styled.img`
@@ -72,19 +75,37 @@ const StyledNavUserImg = styled.img`
 
 
 const Header = () => {
+
+    const menus: menu[] = [
+        {name: 'Search', href: '/' },
+        {name: 'Movie', href: '/movie?id=tt4520988'},
+        {name: 'About', href: '/about'}
+    ]
+    const [activeType, setActiveType] = useState('')
+
+    useEffect(() => {
+        window.addEventListener('load', () => {
+            setActiveType(window.location.pathname.split("/")[1].toUpperCase())
+        })
+    }, [])
+
     return (
         <StyledHeader>
-            <StyledLogo>
+            <StyledLogo href={"/"}>
                 <StyledLogoTitle>OMDbAPI</StyledLogoTitle>.COM
             </StyledLogo>
             <StyledNav>
                 <StyledNavUl>
                     {
-                        <li><a> test</a></li>
+                        menus.map((menu)=>{
+                            return <li key={`LI_${menu.name}`}>
+                                        <StyledNavPageName key={`PAGE_${menu.name}`} href={menu.href} isActive={activeType === menu.name.toUpperCase()}>{menu.name}</StyledNavPageName>
+                                    </li>
+                        })
                     }
                 </StyledNavUl>
             </StyledNav>
-            <StyledNavUser>
+            <StyledNavUser href={"/about"}>
                 <StyledNavUserImg src={userImg}/>
             </StyledNavUser>
         </StyledHeader>

@@ -23,7 +23,8 @@ const Footer = ()=>{
                 <StyledFooterAText>Github Repository</StyledFooterAText>
             </div>
             <div>
-                <StyledFooterAText>Meiday</StyledFooterAText>
+
+                <StyledFooterAText>{new Date().getFullYear()} Meiday</StyledFooterAText>
             </div>
         </StyledFooter>
     )

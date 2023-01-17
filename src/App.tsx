@@ -1,38 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import createSagaMiddleware from "redux-saga";
+import {configureStore} from "@reduxjs/toolkit";
 
-import styled, {createGlobalStyle} from "styled-components"
+import {createGlobalStyle} from "styled-components"
 import reset from "styled-reset"
 
 import Header from "./component/Header";
 import Footer from "./component/Footer";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Home from "./component/home";
-import Movie from "./component/movie";
-import About from "./component/about/About";
+import ViewContainer from "./component/ViewContainer";
+import {Provider} from "react-redux";
+import rootSaga from "./store/saga/rootSaga";
+import rootStore from "./store/reducers/rootReducer";
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
 `;
 
+const sagaMiddleware = createSagaMiddleware();
+
+const store = configureStore({
+    reducer: rootStore,
+    middleware: [sagaMiddleware]
+})
+
+sagaMiddleware.run(rootSaga);
 
 function App() {
     return (
-        <>
-            <GlobalStyles/>
-            <Header></Header>
-            <React.StrictMode>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Home/>}/>
-                        <Route path="/movie" element={<Movie/>}/>
-                        <Route path="/about" element={<About/>}/>
-                    </Routes>
-                </BrowserRouter>
-            </React.StrictMode>
-            <Footer></Footer>
-        </>
+        <React.StrictMode>
+            <Provider store={store}>
+                <GlobalStyles/>
+                <Header/>
+                <ViewContainer/>
+                <Footer/>
+            </Provider>
+        </React.StrictMode>
     );
 }
 

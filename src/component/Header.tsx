@@ -86,7 +86,11 @@ const Header = () => {
 
 
     useEffect(() => {
-        setActiveType(window.location.pathname.split("/")[1].toUpperCase())
+        let pathName = window.location.pathname.split("/")[1].toUpperCase()
+        if (pathName === ''){
+           pathName =  menus[0].name.toUpperCase()
+        }
+        setActiveType(pathName)
     }, [])
 
     return (

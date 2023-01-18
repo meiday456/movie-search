@@ -88,22 +88,20 @@ const Movie = () => {
 
 
     useEffect(() => {
-        window.addEventListener('load', () => {
-                const queryList = window.location.search.replace('?', '').split('&')
-                const idQuery = queryList.find((query) => {
-                    return query.split("=")[0].includes("id")
-                })
+        const queryList = window.location.search.replace('?', '').split('&')
+        const idQuery = queryList.find((query) => {
+            return query.split("=")[0].includes("id")
+        })
 
-                if (idQuery) {
-                    //올바른 query 값이 있는경우에만 수행
-                    const id = idQuery.split("=")[1]
-                    dispatch(updateActiveMovieId(id))
-                    dispatch(actions.fetchMovieInfo({i: id, page: 1}))
-                } else {
-                    window.location.replace("/search")
-                }
-            }
-        )
+        if (idQuery) {
+            //올바른 query 값이 있는경우에만 수행
+            const id = idQuery.split("=")[1]
+            dispatch(updateActiveMovieId(id))
+            dispatch(actions.fetchMovieInfo({i: id, page: 1}))
+        } else {
+            window.location.replace("/search")
+        }
+
     }, []);
 
 

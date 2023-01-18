@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import createSagaMiddleware from "redux-saga";
 import {configureStore} from "@reduxjs/toolkit";
 
@@ -29,8 +28,8 @@ sagaMiddleware.run(rootSaga);
 function App() {
     return (
         <React.StrictMode>
+            <GlobalStyles/>
             <Provider store={store}>
-                <GlobalStyles/>
                 <Header/>
                 <ViewContainer/>
                 <Footer/>

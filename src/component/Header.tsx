@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {menu} from "../interface/CommonInterface";
 
 const StyledHeader = styled.header`
+  font-family: "Roboto" , sans-serif;
   padding: 20px 40px;
   background-color: rgba(14, 17, 27, .9);
   position: sticky;
@@ -83,10 +84,9 @@ const Header = () => {
     ]
     const [activeType, setActiveType] = useState('')
 
+
     useEffect(() => {
-        window.addEventListener('load', () => {
-            setActiveType(window.location.pathname.split("/")[1].toUpperCase())
-        })
+        setActiveType(window.location.pathname.split("/")[1].toUpperCase())
     }, [])
 
     return (

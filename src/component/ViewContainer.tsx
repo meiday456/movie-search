@@ -4,6 +4,7 @@ import Movie from "./movie";
 import About from "./about/About";
 import NotFound from "./notFound/NotFound";
 import React from "react";
+import Header from "./Header";
 
 
 const ViewContainer =  ()=>{

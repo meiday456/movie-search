@@ -3,6 +3,7 @@ import {myInfo} from "../const/config";
 
 
 const StyledFooter = styled.footer`
+  font-family: "Roboto" , sans-serif;
   padding : 40px 40px 60px;
   text-align: center;
 `

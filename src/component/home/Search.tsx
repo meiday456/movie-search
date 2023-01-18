@@ -57,13 +57,14 @@ const Search = () => {
         <StyledContainer>
             <StyledInput placeholder="Enter the movie title to search!"
                          onInput={inputChangeHandler}
+                         onKeyDown={(e) => {
+                             if (e.code === 'Enter') {
+                                 btnClick()
+                             }
+                         }}
             />
             <BtnPrimary onClick={btnClick}
-                        onKeyDown={(e) => {
-                            if (e.code === 'Enter') {
-                                btnClick()
-                            }
-                        }}
+
             >Search!</BtnPrimary>
         </StyledContainer>
     )

@@ -1,7 +1,11 @@
 import styled, {css} from "styled-components";
 import {StyledContainer} from "../common/Container";
 import {StyledSkeleton} from "../common/Skeleton";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {updateActiveMovieId} from "../../store/reducers/view/viewMovieReducer";
+import {RootState} from "../../store/reducers/rootReducer";
+import {actions} from "../../store/saga/movieAction"
 
 
 const MovieContainer = styled(StyledContainer)`
@@ -22,14 +26,15 @@ const MovieContainer = styled(StyledContainer)`
 //음 값을 받아오는 순간을 어찌할수 있을까
 //처음
 
-const StyledPoster = styled.div<{ isSkeleton: boolean }>`
-  ${(props) => props.isSkeleton ? css`${StyledSkeleton}` : ''}
+const StyledPoster = styled.div<{ isSkeleton: boolean, image:string }>`
+  ${(props) => props.isSkeleton && css`${StyledSkeleton}`}
   flex-shrink: 0;
   width: var(--width);
   height: calc(var(--width) * 3 / 2);
   border-radius: 10px;
   background-size: cover;
   background-color: var(--color-area);
+  background-image: ${(props)=>props.isSkeleton ? 'none' :`url(${props.image})`};
 
   @media (max-width: 1200px) {
     --width: 300px;
@@ -41,7 +46,7 @@ const StyledSpecArea = styled.div`
 `
 
 const StyledTitle = styled.div<{ isSkeleton: boolean }>`
-  ${(props) => props.isSkeleton ? css`${StyledSkeleton}` : ''}
+  ${(props) => props.isSkeleton && css`${StyledSkeleton}`}
   height: ${(props) => props.isSkeleton ? '70px' : 'auto'};
   font-size: 70px;
   font-family: 'Oswald', sans-serif;
@@ -56,19 +61,19 @@ const StyledTitle = styled.div<{ isSkeleton: boolean }>`
 `
 
 const StyledLabels = styled.div<{ isSkeleton: boolean }>`
-  ${(props) => props.isSkeleton ? css`${StyledSkeleton}` : ''}
+  ${(props) => props.isSkeleton && css`${StyledSkeleton}`}
   height: ${(props) => props.isSkeleton ? '30px' : 'auto'};
   color: var(--color-primary);
   margin-bottom: 20px;
 `
 
 const StyledPlot = styled.div<{ isSkeleton: boolean }>`
-  ${(props) => props.isSkeleton ? css`${StyledSkeleton}` : ''}
+  ${(props) => props.isSkeleton && css`${StyledSkeleton}`}
   width: ${(props) => props.isSkeleton ? '80%' : 'auto'};
   height: ${(props) => props.isSkeleton ? '400px' : 'auto'};
 `
 
-const StyledRatings = styled.h3`
+const StyledH3 = styled.h3`
   font-size: 20px;
   font-family: 'Oswald', sans-serif;
   color: var(--color-white);
@@ -76,33 +81,67 @@ const StyledRatings = styled.h3`
 `
 
 const Movie = () => {
+    const dispatch = useDispatch()
 
-    const [isLoading, setLoading] = useState(true)
+    const isLoading = useSelector((state: RootState) => state.server.movie.infoLoading)
+    const movieInfo = useSelector((state: RootState) => state.server.movie.movieInfo)
+
+
+    useEffect(() => {
+        window.addEventListener('load', () => {
+                const queryList = window.location.search.replace('?', '').split('&')
+                const idQuery = queryList.find((query) => {
+                    return query.split("=")[0].includes("id")
+                })
+
+                if (idQuery) {
+                    //올바른 query 값이 있는경우에만 수행
+                    const id = idQuery.split("=")[1]
+                    dispatch(updateActiveMovieId(id))
+                    dispatch(actions.fetchMovieInfo({i: id, page: 1}))
+                } else {
+                    window.location.replace("/search")
+                }
+            }
+        )
+    }, []);
+
 
     return (
         <MovieContainer>
-            <StyledPoster isSkeleton={true}/>
+            <StyledPoster isSkeleton={isLoading} image={movieInfo ? movieInfo.Poster.replace('SX300', 'SX700'):''}/>
             <StyledSpecArea>
-                <StyledTitle isSkeleton={true}></StyledTitle>
-                <StyledLabels isSkeleton={true}></StyledLabels>
-                <StyledPlot isSkeleton={true}></StyledPlot>
+                <StyledTitle isSkeleton={isLoading}>{movieInfo?.Title}</StyledTitle>
+                <StyledLabels isSkeleton={isLoading}>
+                    {
+                        !isLoading &&
+                        <>
+                            <span>{movieInfo?.Released}</span>&nbsp;/&nbsp;
+                            <span>{movieInfo?.Runtime}</span>&nbsp;/&nbsp;
+                            <span>{movieInfo?.Country}</span>
+                        </>
+                    }
+                </StyledLabels>
+                <StyledPlot isSkeleton={isLoading}>{movieInfo?.Plot}</StyledPlot>
                 {
                     !isLoading &&
                     <>
-                        <StyledRatings>
-                            <p></p>
-                        </StyledRatings>
+                        <StyledH3>Ratings
+                            {movieInfo?.Ratings.map((rating) => {
+                                return <p key={rating.Source}>{rating.Source} - {rating.Value}</p>
+                            })}
+                        </StyledH3>
                         <div>
-                            <h3>Actors<p></p></h3>
+                            <StyledH3>Actors<p>{movieInfo?.Actors}</p></StyledH3>
                         </div>
                         <div>
-                            <h3>Director<p></p></h3>
+                            <StyledH3>Director<p>{movieInfo?.Director}</p></StyledH3>
                         </div>
                         <div>
-                            <h3>Production<p></p></h3>
+                            <StyledH3>Production<p>{movieInfo?.Production}</p></StyledH3>
                         </div>
                         <div>
-                            <h3>Genre<p></p></h3>
+                            <StyledH3>Genre<p>{movieInfo?.Genre}</p></StyledH3>
                         </div>
                     </>
 

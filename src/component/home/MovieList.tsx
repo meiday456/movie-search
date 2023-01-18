@@ -30,7 +30,7 @@ const StyledMovies = styled.div`
 const MovieList = () => {
 
     const statusMessage: string = useSelector((state: RootState) => state.view.movie.statusMessage)
-    const movieListInfo = useSelector((state: RootState) => state.server.movie.movieListInfo) as (MoveListResponse | null)
+    const movieList = useSelector((state: RootState) => state.server.movie.movieList)
     const isLoading: boolean = useSelector((state: RootState) => state.server.movie.listLoading)
 
 
@@ -39,7 +39,7 @@ const MovieList = () => {
             <StyledMessage>{statusMessage}</StyledMessage>
             <StyledMovies>
                 {
-                    movieListInfo?.Search.map((movie) => {
+                    movieList.map((movie) => {
                         return <MovieItem key={movie.imdbID} movie={movie}/>
                     })
 

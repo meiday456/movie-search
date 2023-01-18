@@ -2,10 +2,11 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ViewStoreState} from "../../../interface/MovieInterface";
 
 const initialState: ViewStoreState = {
+    searchText: '',
     activeMovieId: '',
     currentPage: 1,
     maxPage: 1,
-    statusMessage : 'Search for the movie title!'
+    statusMessage: 'Search for the movie title!'
 }
 
 const viewMovieStore = createSlice({
@@ -28,8 +29,19 @@ const viewMovieStore = createSlice({
                 ...state, statusMessage: action.payload
             }
         },
+        updateSearchText: (state: ViewStoreState = initialState, action: PayloadAction<string>) => {
+            return {
+                ...state, searchText: action.payload
+            }
+        },
     }
 })
 
-export const {updateActiveMovieId, updateCurrentPage, updateMaxPage,updateStatusMessage} = viewMovieStore.actions
+export const {
+    updateActiveMovieId,
+    updateCurrentPage,
+    updateMaxPage,
+    updateStatusMessage,
+    updateSearchText
+} = viewMovieStore.actions
 export default viewMovieStore.reducer

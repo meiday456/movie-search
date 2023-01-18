@@ -1,7 +1,9 @@
 import {MovieInfo} from "../../interface/MovieInterface";
 import styled from "styled-components";
+import {useDispatch} from "react-redux";
+import {actions} from "../../store/saga/movieAction"
 
-const StyledMovieItem = styled.div<{ url: string }>`
+const StyledMovieItem = styled.a<{ url: string }>`
   --width: 200px;
   width: var(--width);
   height: calc(var(--width) * 3 / 2);
@@ -52,8 +54,9 @@ interface Props {
 }
 
 const MovieItem = (props: Props) => {
+
     return (
-        <StyledMovieItem url = {props.movie.Poster}>
+        <StyledMovieItem href={`/movie?id=${props.movie.imdbID}`} url = {props.movie.Poster}>
             <StyledMovieInfo>
                 <StyledYear>{props.movie.Year}</StyledYear>
                 <StyledTitle>{props.movie.Title}</StyledTitle>

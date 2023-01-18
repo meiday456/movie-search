@@ -18,6 +18,10 @@ export const xhr = fetchClient()
 
 export const fetchMovie = async (param : MovieParam) =>{
 
+    if (param.i){
+        param = {...param, plot:'full'}
+    }
+
     const {data} = await xhr.get(omdbApiBaseUrl,{
         params : {...param , apiKey : apiKey}
     })

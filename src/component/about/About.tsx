@@ -1,6 +1,7 @@
 import styled, {css} from "styled-components"
 import {StyledContainer} from "../common/Container";
 import userImg from "../../public/images/userImg.jpg"
+import {myInfo} from "../../const/config";
 
 
 const StyledPhoto = styled.div`
@@ -37,15 +38,15 @@ const About = () => {
     return (
         <StyledContainer>
             <StyledPhoto></StyledPhoto>
-            <StyledName>Meiday</StyledName>
+            <StyledName>Meiday / KangSeongJin</StyledName>
             <StyledP>
-                <StyledEmailA>email!!!</StyledEmailA>
+                <StyledEmailA target="_blank" href={`https://mail.google.com/mail/?view=cm&fs=1&to=${myInfo.email}`}>{myInfo.email}</StyledEmailA>
             </StyledP>
             <StyledP>
-                <StyledEmailA>github!!!</StyledEmailA>
+                <StyledEmailA target="_blank" href={`${myInfo.github}`}>Github</StyledEmailA>
             </StyledP>
             <StyledP>
-                <StyledEmailA>Blog!!!</StyledEmailA>
+                <StyledEmailA target="_blank" href={`${myInfo.blog}`}>Blog</StyledEmailA>
             </StyledP>
         </StyledContainer>
     )

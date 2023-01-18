@@ -1,8 +1,9 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {MovieList, ServerStoreState} from "../../../interface/MovieInterface";
+import {MovieInfo, MovieInfoById, MovieList, ServerStoreState} from "../../../interface/MovieInterface";
 
 const initialState: ServerStoreState = {
-    movieListInfo: null,
+    movieList: [],
+    movieInfo: null,
     infoLoading: false,
     listLoading: false,
 }
@@ -11,8 +12,11 @@ const serverMovieStore = createSlice({
     name: 'serverMovieStore',
     initialState,
     reducers: {
-        updateMovieListInfo(state: ServerStoreState = initialState, action: PayloadAction<MovieList | null>) {
-            state.movieListInfo = action.payload
+        updateMovieList(state: ServerStoreState = initialState, action: PayloadAction<MovieInfo[]>) {
+            state.movieList = action.payload
+        },
+        updateMovieInfo: (state: ServerStoreState = initialState, action: PayloadAction<MovieInfoById | null>) => {
+            state.movieInfo = action.payload
         },
         updateInfoLoading(state: ServerStoreState = initialState, action: PayloadAction<boolean>) {
             state.infoLoading = action.payload
@@ -23,5 +27,8 @@ const serverMovieStore = createSlice({
     }
 })
 
-export const {updateMovieListInfo, updateInfoLoading, updateListLoading} = serverMovieStore.actions
+export const {
+    updateMovieList, updateInfoLoading,
+    updateListLoading, updateMovieInfo
+} = serverMovieStore.actions
 export default serverMovieStore.reducer

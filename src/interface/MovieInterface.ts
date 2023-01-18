@@ -1,12 +1,12 @@
 export interface MovieParam {
     s? : string
-    page : number,
-    id? : string
+    page : number
+    i? : string
+    plot? :string
 }
 
 
 export interface MovieInfo {
-
     Title: string
     Year: string
     imdbID: string
@@ -14,8 +14,8 @@ export interface MovieInfo {
     Poster: string
 }
 export interface MovieList {
-    totalResults : number
-    Response : string
+    totalResults? : number
+    Response? : string
     Search : MovieInfo[]
     Error? : string
 }
@@ -52,14 +52,16 @@ export interface MovieInfoById {
 }
 
 export interface ViewStoreState {
+    searchText : string,
     activeMovieId : string,
     currentPage : number,
     maxPage : number,
     statusMessage : string
 }
 
-export interface ServerStoreState {
-    movieListInfo : MovieList | null
+export interface ServerStoreState{
+    movieList : MovieInfo[]
     listLoading : boolean
     infoLoading : boolean
+    movieInfo : MovieInfoById | null
 }

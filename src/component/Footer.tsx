@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import {myInfo} from "../const/config";
 
 
 const StyledFooter = styled.footer`
@@ -20,11 +21,11 @@ const Footer = ()=>{
     return (
         <StyledFooter>
             <div>
-                <StyledFooterAText>Github Repository</StyledFooterAText>
+                <StyledFooterAText href={myInfo.github + myInfo.repository}>Github Repository</StyledFooterAText>
             </div>
             <div>
 
-                <StyledFooterAText>{new Date().getFullYear()} Meiday</StyledFooterAText>
+                <StyledFooterAText href={myInfo.github}>{new Date().getFullYear()} Meiday</StyledFooterAText>
             </div>
         </StyledFooter>
     )

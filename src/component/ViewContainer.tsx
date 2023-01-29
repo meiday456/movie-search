@@ -7,17 +7,16 @@ import React from "react";
 import Header from "./Header";
 
 
-const ViewContainer =  ()=>{
+const ViewContainer = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/"  element={<Navigate replace to="/search"/>}/>
-                <Route path="/search"  element={<Home/>}/>
-                <Route path="/movie" element={<Movie/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/*" element={<NotFound/>}/>
-            </Routes>
-        </BrowserRouter>
+
+        <Routes>
+            <Route path="/" element={<Navigate replace to="/search"/>}/>
+            <Route path="/search" element={<Home/>}/>
+            <Route path="/movie" element={<Movie/>}/>
+            <Route path="/about" element={<About/>}/>
+            <Route path="/*" element={<NotFound/>}/>
+        </Routes>
     )
 }
 

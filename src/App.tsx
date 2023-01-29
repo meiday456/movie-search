@@ -11,6 +11,7 @@ import ViewContainer from "./component/ViewContainer";
 import {Provider} from "react-redux";
 import rootSaga from "./store/saga/rootSaga";
 import rootStore from "./store/reducers/rootReducer";
+import {BrowserRouter} from "react-router-dom";
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
@@ -30,9 +31,11 @@ function App() {
         <React.StrictMode>
             <GlobalStyles/>
             <Provider store={store}>
+                <BrowserRouter>
                 <Header/>
                 <ViewContainer/>
                 <Footer/>
+                </BrowserRouter>
             </Provider>
         </React.StrictMode>
     );

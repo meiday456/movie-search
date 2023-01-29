@@ -3,9 +3,10 @@ import styled from "styled-components";
 import userImg from "../public/images/userImg.jpg"
 import {useEffect, useState} from "react";
 import {menu} from "../interface/CommonInterface";
+import {Link, NavLink} from "react-router-dom";
 
 const StyledHeader = styled.header`
-  font-family: "Roboto" , sans-serif;
+  font-family: "Roboto", sans-serif;
   padding: 20px 40px;
   background-color: rgba(14, 17, 27, .9);
   position: sticky;
@@ -41,12 +42,23 @@ const StyledNavUl = styled.ul`
   gap: 14px;
 `
 
-const StyledNavPageName = styled.a<{ isActive: boolean }>`
+const StyledNavPageName = styled.div<{ isActive: boolean }>`
   font-size: 14px;
   font-weight: 700;
   color: ${(props) => props.isActive ? 'var(--color-primary)' : 'var(--color-white-50)'};
   text-decoration: none;
 `
+const StyledNavLink = styled(NavLink)`
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-white-50);
+  text-decoration: none;
+  
+  &.active{
+    color : var(--color-primary)
+  }
+`
+
 
 const StyledNavUser = styled.a`
   width: 40px;
@@ -78,7 +90,7 @@ const StyledNavUserImg = styled.img`
 const Header = () => {
 
     const menus: menu[] = [
-        {name: 'Search', href: '/' },
+        {name: 'Search', href: '/search'},
         {name: 'Movie', href: '/movie?id=tt4520988'},
         {name: 'About', href: '/about'}
     ]
@@ -87,8 +99,8 @@ const Header = () => {
 
     useEffect(() => {
         let pathName = window.location.pathname.split("/")[1].toUpperCase()
-        if (pathName === ''){
-           pathName =  menus[0].name.toUpperCase()
+        if (pathName === '') {
+            pathName = menus[0].name.toUpperCase()
         }
         setActiveType(pathName)
     }, [])
@@ -103,8 +115,10 @@ const Header = () => {
                     {
                         menus.map((menu)=>{
                             return <li key={`LI_${menu.name}`}>
-                                        <StyledNavPageName key={`PAGE_${menu.name}`} href={menu.href} isActive={activeType === menu.name.toUpperCase()}>{menu.name}</StyledNavPageName>
-                                    </li>
+                                <StyledNavLink to={menu.href}>
+                                    {menu.name}
+                                </StyledNavLink>
+                            </li>
                         })
                     }
                 </StyledNavUl>

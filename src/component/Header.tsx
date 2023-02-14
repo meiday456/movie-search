@@ -2,7 +2,7 @@ import styled from "styled-components";
 import userImg from "../public/images/userImg.jpg";
 import { useEffect, useState } from "react";
 import { menu } from "../interface/CommonInterface";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import BlackAndWhite from "./BlackAndWhite";
 
 const StyledHeader = styled.header`
@@ -21,7 +21,7 @@ const StyledHeader = styled.header`
   }
 `;
 
-const StyledLogo = styled.a`
+const StyledLogo = styled(Link)`
   font-size: 20px;
   font-family: "Oswald", sans-serif;
   color: ${(props) => props.theme.header.color};
@@ -60,7 +60,7 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-const StyledNavUser = styled.a`
+const StyledNavUser = styled(Link)`
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -104,7 +104,7 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <StyledLogo href={"/"}>
+      <StyledLogo to={"/"}>
         <StyledLogoTitle>OMDbAPI</StyledLogoTitle>.COM
       </StyledLogo>
       <StyledNav>
@@ -120,7 +120,7 @@ const Header = () => {
       </StyledNav>
 
       <BlackAndWhite />
-      <StyledNavUser href={"/about"}>
+      <StyledNavUser to={"/about"}>
         <StyledNavUserImg src={userImg} />
       </StyledNavUser>
     </StyledHeader>

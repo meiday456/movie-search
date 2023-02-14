@@ -1,7 +1,8 @@
 import { MovieInfo } from "../../interface/MovieInterface";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const StyledMovieItem = styled.a<{ url: string }>`
+const StyledMovieItem = styled(Link)<{ url: string }>`
   --width: 200px;
   width: var(--width);
   height: calc(var(--width) * 3 / 2);
@@ -54,7 +55,7 @@ interface Props {
 const MovieItem = (props: Props) => {
   return (
     <StyledMovieItem
-      href={`/movie?id=${props.movie.imdbID}`}
+      to={`/movie?id=${props.movie.imdbID}`}
       url={props.movie.Poster}
     >
       <StyledMovieInfo>

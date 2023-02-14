@@ -1,7 +1,5 @@
-import {MovieInfo} from "../../interface/MovieInterface";
+import { MovieInfo } from "../../interface/MovieInterface";
 import styled from "styled-components";
-import {useDispatch} from "react-redux";
-import {actions} from "../../store/saga/movieAction"
 
 const StyledMovieItem = styled.a<{ url: string }>`
   --width: 200px;
@@ -10,7 +8,7 @@ const StyledMovieItem = styled.a<{ url: string }>`
   border-radius: 4px;
   background-color: var(--color-black);
   background-size: cover;
-  background-image: url(${props => props.url});
+  background-image: url(${(props) => props.url});
   overflow: hidden;
   position: relative;
 
@@ -23,7 +21,7 @@ const StyledMovieItem = styled.a<{ url: string }>`
     bottom: 0;
     border: 6px solid var(--color-primary);
   }
-`
+`;
 
 const StyledMovieInfo = styled.div`
   width: 100%;
@@ -34,35 +32,37 @@ const StyledMovieInfo = styled.div`
   position: absolute;
   left: 0;
   bottom: 0;
-  background-color: rgba(14, 17, 27, .3);
+  background-color: rgba(14, 17, 27, 0.3);
   --webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-`
+`;
 
 const StyledYear = styled.div`
   color: var(--color-primary);
-`
+`;
 
 const StyledTitle = styled.div`
   color: var(--color-white);
-`
+`;
 
 interface Props {
-    [key: string]: unknown
+  [key: string]: unknown;
 
-    movie: MovieInfo
+  movie: MovieInfo;
 }
 
 const MovieItem = (props: Props) => {
+  return (
+    <StyledMovieItem
+      href={`/movie?id=${props.movie.imdbID}`}
+      url={props.movie.Poster}
+    >
+      <StyledMovieInfo>
+        <StyledYear>{props.movie.Year}</StyledYear>
+        <StyledTitle>{props.movie.Title}</StyledTitle>
+      </StyledMovieInfo>
+    </StyledMovieItem>
+  );
+};
 
-    return (
-        <StyledMovieItem href={`/movie?id=${props.movie.imdbID}`} url = {props.movie.Poster}>
-            <StyledMovieInfo>
-                <StyledYear>{props.movie.Year}</StyledYear>
-                <StyledTitle>{props.movie.Title}</StyledTitle>
-            </StyledMovieInfo>
-        </StyledMovieItem>
-    )
-}
-
-export default MovieItem
+export default MovieItem;

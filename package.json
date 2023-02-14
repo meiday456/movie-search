@@ -21,6 +21,8 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.2.2",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4",
     "styled-components": "^5.3.6",
     "styled-normalize": "^8.0.7",
     "styled-reset": "^4.4.5",

@@ -8,7 +8,7 @@ import BlackAndWhite from "./BlackAndWhite";
 const StyledHeader = styled.header`
   font-family: "Roboto", sans-serif;
   padding: 20px 40px;
-  background-color: rgba(14, 17, 27, 0.9);
+  background-color: ${(props) => props.theme.header.background};
   position: sticky;
   top: 0;
   z-index: 9;
@@ -24,7 +24,7 @@ const StyledHeader = styled.header`
 const StyledLogo = styled.a`
   font-size: 20px;
   font-family: "Oswald", sans-serif;
-  color: var(--color-white-50);
+  color: ${(props) => props.theme.header.color};
   text-decoration: none;
 `;
 const StyledLogoTitle = styled.span`
@@ -52,7 +52,7 @@ const StyledNavPageName = styled.div<{ isActive: boolean }>`
 const StyledNavLink = styled(NavLink)`
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-white-50);
+  color: ${(props) => props.theme.header.color};
   text-decoration: none;
 
   &.active {

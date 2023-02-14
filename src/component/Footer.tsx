@@ -8,7 +8,7 @@ const StyledFooter = styled.footer`
 `;
 
 const StyledFooterAText = styled.a`
-  color: var(--color-white-20);
+  color: ${(props) => props.theme.footer.color};
   text-decoration: none;
 
   &:hover {

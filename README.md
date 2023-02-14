@@ -10,6 +10,7 @@
 - Redux Saga
 - Typescript
 - Axios
+- dark, light mode
 
 
 ![메인페이지](./main.png)

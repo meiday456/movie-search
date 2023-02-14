@@ -43,6 +43,9 @@ const StyledPoster = styled.div<{ isSkeleton: boolean; image: string }>`
   @media (max-width: 1200px) {
     --width: 300px;
   }
+  &::after {
+    display: ${(props) => (props.isSkeleton ? "block" : "none")};
+  }
 `;
 
 const StyledSpecArea = styled.div`
@@ -66,6 +69,9 @@ const StyledTitle = styled.div<{ isSkeleton: boolean }>`
     font-size: 50px;
     margin-top: 50px;
   }
+  &::after {
+    display: ${(props) => (props.isSkeleton ? "block" : "none")};
+  }
 `;
 
 const StyledLabels = styled.div<{ isSkeleton: boolean }>`
@@ -77,6 +83,9 @@ const StyledLabels = styled.div<{ isSkeleton: boolean }>`
   height: ${(props) => (props.isSkeleton ? "30px" : "auto")};
   color: var(--color-primary);
   margin-bottom: 20px;
+  &::after {
+    display: ${(props) => (props.isSkeleton ? "block" : "none")};
+  }
 `;
 
 const StyledPlot = styled.div<{ isSkeleton: boolean }>`
@@ -87,6 +96,9 @@ const StyledPlot = styled.div<{ isSkeleton: boolean }>`
     `}
   width: ${(props) => (props.isSkeleton ? "80%" : "auto")};
   height: ${(props) => (props.isSkeleton ? "400px" : "auto")};
+  &::after {
+    display: ${(props) => (props.isSkeleton ? "block" : "none")};
+  }
 `;
 
 const StyledH3 = styled.h3`

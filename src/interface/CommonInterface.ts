@@ -32,4 +32,11 @@ export interface Theme {
   footer: {
     [key: string]: string;
   };
+  movie: CommonTheme;
+  skeleton: {
+    background: string;
+    from: string;
+    between: string;
+    to: string;
+  };
 }

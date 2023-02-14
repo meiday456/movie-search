@@ -2,6 +2,7 @@ import { Theme } from "../../interface/CommonInterface";
 
 const defaultTheme = {
   black: "#0E111B",
+  black80: "rgba(14,17,27,0.8)",
   black60: "rgba(14,17,27,0.6)",
   black30: "rgba(14,17,27,0.3)",
   white: "#FFF",
@@ -32,10 +33,20 @@ const dark: Theme = {
   footer: {
     color: defaultTheme.white20,
   },
+  movie: {
+    background: "#1C212E",
+    color: defaultTheme.white,
+  },
   primary: "#FDC000",
   hover: "#F86A05",
   area: "#1C212E",
   font: defaultTheme.white,
+  skeleton: {
+    background: "#1C212E",
+    from: "rgba(255, 255, 255, 0)",
+    between: "rgba(255, 255, 255, 0.1)",
+    to: "rgba(255, 255, 255, 0)",
+  },
 };
 
 const light: Theme = {
@@ -58,10 +69,20 @@ const light: Theme = {
   footer: {
     color: defaultTheme.black60,
   },
+  movie: {
+    background: "#E6E6E6",
+    color: defaultTheme.black80,
+  },
   primary: "#68D97A",
   hover: "#367A77",
   area: "#E6E6E6",
   font: defaultTheme.black,
+  skeleton: {
+    background: defaultTheme.black60,
+    from: "rgba(72, 72, 72, 0.8)",
+    between: "rgba(72, 72,72, 0.9)",
+    to: "rgba(72,72,72, 0.8)",
+  },
 };
 
 export default (isDark: boolean) => {

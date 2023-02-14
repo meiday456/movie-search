@@ -10,5 +10,6 @@ export const myInfo = {
 
 export const isDark = () => {
   const hour = new Date().getHours();
+
   return hour >= 18 || hour <= 6;
 };

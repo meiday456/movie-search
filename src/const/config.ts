@@ -10,6 +10,16 @@ export const myInfo = {
 
 export const isDark = () => {
   const hour = new Date().getHours();
-
   return hour >= 18 || hour <= 6;
+};
+
+export const debouncing = <T extends any[]>(
+  callback: (...params: T) => void,
+  timeout: number = 200
+): ((...params: T) => void) => {
+  let timer: NodeJS.Timeout;
+  return (...params: T) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => callback.apply(this, params), timeout);
+  };
 };

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import userImg from "../public/images/userImg.jpg";
-import { useEffect, useState } from "react";
 import { menu } from "../interface/CommonInterface";
 import { Link, NavLink } from "react-router-dom";
 import BlackAndWhite from "./BlackAndWhite";
@@ -92,15 +91,6 @@ const Header = () => {
     { name: "Movie", href: "/movie?id=tt4520988" },
     { name: "About", href: "/about" },
   ];
-  const [activeType, setActiveType] = useState("");
-
-  useEffect(() => {
-    let pathName = window.location.pathname.split("/")[1].toUpperCase();
-    if (pathName === "") {
-      pathName = menus[0].name.toUpperCase();
-    }
-    setActiveType(pathName);
-  }, []);
 
   return (
     <StyledHeader>
@@ -121,7 +111,7 @@ const Header = () => {
 
       <BlackAndWhite />
       <StyledNavUser to={"/about"}>
-        <StyledNavUserImg src={userImg} />
+        <StyledNavUserImg src={userImg} alt={"유저 아이콘 이미지"} />
       </StyledNavUser>
     </StyledHeader>
   );

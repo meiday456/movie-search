@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actions as MovieAction } from "../../store/saga/movieAction";
 import { RootState } from "../../store/reducers/rootReducer";
 import { updateSearchText } from "../../store/reducers/view/viewMovieReducer";
+import { debouncing } from "../../const/config";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -36,8 +37,12 @@ const Search = () => {
     (state: RootState) => state.view.movie.searchText
   );
 
+  const debounceInputHandler = debouncing((value: string) => {
+    setWord(value);
+  });
   const inputChangeHandler = (event: FormEvent<HTMLInputElement>) => {
-    setWord(event.currentTarget.value);
+    const value = event.currentTarget.value;
+    debounceInputHandler(value);
   };
 
   const btnClick = () => {

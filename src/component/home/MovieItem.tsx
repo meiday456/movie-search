@@ -1,3 +1,4 @@
+import React from "react";
 import { MovieInfo } from "../../interface/MovieInterface";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -66,4 +67,6 @@ const MovieItem = (props: Props) => {
   );
 };
 
-export default MovieItem;
+export default React.memo(MovieItem, (prevProps, nextProps) => {
+  return prevProps.movie.imdbID === nextProps.movie.imdbID;
+});

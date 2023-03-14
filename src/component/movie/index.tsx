@@ -21,10 +21,6 @@ const MovieContainer = styled(StyledContainer)`
   }
 `;
 
-//스켈레톤 ui 를적용해야하는데
-//음 값을 받아오는 순간을 어찌할수 있을까
-//처음
-
 const StyledPoster = styled.div<{ isSkeleton: boolean; image: string }>`
   ${(props) =>
     props.isSkeleton &&

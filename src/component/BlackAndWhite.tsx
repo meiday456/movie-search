@@ -1,9 +1,8 @@
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/reducers/rootReducer";
+import { useDispatch } from "react-redux";
 import { updateIsDark } from "../store/reducers/view/viewMovieReducer";
 import { isDark } from "../const/config";
-import { useState } from "react";
 
 const ChangeBtnDiv = styled.div`
   perspective: 340px;
@@ -43,7 +42,6 @@ const ChangeBtnBack = styled(ChangeBtn)`
 const BlackAndWhite = () => {
   const mode = ["brightness_5", "dark_mode"];
   const dispatch = useDispatch();
-  const isPageDark = useSelector((state: RootState) => state.view.movie.isDark);
   const [isTurn, setTurn] = useState(false);
   //클릭이 되었을때만 달라지면됨
   const clickHandle = (e: React.MouseEvent<HTMLSpanElement>) => {

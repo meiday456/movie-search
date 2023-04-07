@@ -49,11 +49,7 @@ const Search = () => {
     if (word) {
       dispatch(updateSearchText(word));
       if (storeWord !== word) {
-        dispatch(
-          MovieAction.fetchMovieList({
-            page: 1,
-          })
-        );
+        dispatch(MovieAction.fetchMovieList({ page: 1 }));
       }
     }
   };

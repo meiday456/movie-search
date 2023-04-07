@@ -128,7 +128,7 @@ const Movie = () => {
     } else {
       window.location.replace("/search");
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <MovieContainer>

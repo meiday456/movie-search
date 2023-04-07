@@ -1,4 +1,4 @@
-import { Theme } from "../../interface/CommonInterface";
+import { Theme as ThemeInterface } from "../../interface/CommonInterface";
 
 const defaultTheme = {
   black: "#0E111B",
@@ -13,7 +13,7 @@ const defaultTheme = {
   white5: "rgba(255, 255, 255, .05)",
 };
 
-const dark: Theme = {
+const dark: ThemeInterface = {
   ...defaultTheme,
   main: {
     background: defaultTheme.black,
@@ -49,7 +49,7 @@ const dark: Theme = {
   },
 };
 
-const light: Theme = {
+const light: ThemeInterface = {
   ...defaultTheme,
   main: {
     background: defaultTheme.white,
@@ -85,6 +85,8 @@ const light: Theme = {
   },
 };
 
-export default (isDark: boolean) => {
+const Theme = (isDark: boolean) => {
   return isDark ? dark : light;
 };
+
+export default Theme;

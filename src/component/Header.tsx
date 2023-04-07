@@ -41,13 +41,13 @@ const StyledNavUl = styled.ul`
   gap: 14px;
 `;
 
-const StyledNavPageName = styled.div<{ isActive: boolean }>`
-  font-size: 14px;
-  font-weight: 700;
-  color: ${(props) =>
-    props.isActive ? "var(--color-primary)" : "var(--color-white-50)"};
-  text-decoration: none;
-`;
+// const StyledNavPageName = styled.div<{ isActive: boolean }>`
+//   font-size: 14px;
+//   font-weight: 700;
+//   color: ${(props) =>
+//     props.isActive ? "var(--color-primary)" : "var(--color-white-50)"};
+//   text-decoration: none;
+// `;
 const StyledNavLink = styled(NavLink)`
   font-size: 14px;
   font-weight: 700;

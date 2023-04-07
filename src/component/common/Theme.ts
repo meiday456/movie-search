@@ -85,6 +85,8 @@ const light: Theme = {
   },
 };
 
-export default (isDark: boolean) => {
+const Theme = (isDark: boolean) => {
   return isDark ? dark : light;
 };
+
+export default Theme;

@@ -10,11 +10,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        os: [ ubuntu-latest, window-2016 ]
-        node-version: [ 14.x, 16.x, 18.x ]
+        os: [ ubuntu-latest]
+        node-version: [16.x, 18.x ]
     steps:
       - uses: actions/checkout@v3
-      - run: ls -al
+      - name: npm install and build ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: |
+          npm ci
+          npm run build --if-present
+          npm run test
+      - uses: actions/upload-artifact@master
+        with:
+          name: webpack artifacts
+          path: public/
+
+
+  docker-build-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: webpack artifacts
+          path: public
+      - name: docker build
+      - run: | 
+          docker login ghcr.io -u ${{secrets.GHCR_USERNAME}} --password ${{secrets.GHCR_TOKEN}}
+          docker buildx build --platform ${{secrets.TARGET_PLATFORM}} --tag ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_${{secrets.TARGET_PLATFORM}} --push ./
+
+      - name: docker pull
+        uses: appleboy/ssh-action@master
+        with:
+          host : ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          password : ${{secrets.PASSWORD}}
+          port : ${{secrets.PORT}}
+          script : |
+            docker rm -f $(docker ps -qa)
+            docker pull ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_${{secrets.TARGET_PLATFORM}}
+            docker run -p 3000:3000 --name movie -dit ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_${{secrets.TARGET_PLATFORM}}

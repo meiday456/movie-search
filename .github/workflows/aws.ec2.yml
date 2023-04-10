@@ -30,7 +30,6 @@ jobs:
           name: webpack artifacts
           path: public/
 
-
   docker-build-push:
     runs-on: ubuntu-latest
     steps:

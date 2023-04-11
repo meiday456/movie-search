@@ -2,9 +2,9 @@ name: AWS EC2 CI/CD React with Docker
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 
 jobs:
@@ -12,15 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ ubuntu-latest]
-        node-version: [16.x, 18.x ]
+        os: [ ubuntu-latest ]
+        node-version: [ 16.x, 18.x ]
     steps:
       - uses: actions/checkout@v3
       - name: npm install and build ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
       - run: |
           npm ci
           npm run build --if-present
@@ -31,25 +31,52 @@ jobs:
           path: public/
 
   docker-build-push:
+    needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: actions/download-artifact@master
         with:
           name: webpack artifacts
           path: public
+      - name: docker login
+        run: docker login ghcr.io -u ${{secrets.GHCR_USERNAME}} --password ${{secrets.GHCR_TOKEN}}
       - name: docker build
-      - run: | 
-          docker login ghcr.io -u ${{secrets.GHCR_USERNAME}} --password ${{secrets.GHCR_TOKEN}}
-          docker buildx build --platform ${{secrets.TARGET_PLATFORM}} --tag ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_${{secrets.TARGET_PLATFORM}} --push ./
+        run: |
+          docker buildx build --platform ${{secrets.TARGET_PLATFORM}} --tag ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_amd64 --push ./
 
+      - name: Public IP #add white list
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-2
       - name: docker pull
         uses: appleboy/ssh-action@master
         with:
-          host : ${{secrets.HOST}}
+          host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
-          password : ${{secrets.PASSWORD}}
-          port : ${{secrets.PORT}}
-          script : |
-            docker rm -f $(docker ps -qa)
-            docker pull ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_${{secrets.TARGET_PLATFORM}}
-            docker run -p 3000:3000 --name movie -dit ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_${{secrets.TARGET_PLATFORM}}
+          password: ${{secrets.PASSWORD}}
+          port: ${{secrets.PORT}}
+          key: ${{secrets.AWS_PEM}}
+          script: |
+            docker stop $(docker ps -a -q) 
+            docker rm $(docker ps -a -q) 
+            docker login ghcr.io -u ${{secrets.GHCR_USERNAME}} --password ${{secrets.GHCR_TOKEN}}
+            docker pull ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_amd64
+            docker run -p 3000:3000 --name movie -dit ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_amd64
+      - name: Remove Github Actions IP From Security Group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32

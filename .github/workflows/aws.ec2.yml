@@ -66,13 +66,14 @@ jobs:
       - name: docker pull
         uses: appleboy/ssh-action@master
         with:
-          script_stop: true
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
           password: ${{secrets.PASSWORD}}
           port: ${{secrets.PORT}}
           key: ${{secrets.AWS_PEM}}
           script: |
+            docker stop $(docker ps -a -q) 
+            docker rm $(docker ps -a -q) 
             docker login ghcr.io -u ${{secrets.GHCR_USERNAME}} --password ${{secrets.GHCR_TOKEN}}
             docker pull ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_amd64
             docker run -p 3000:3000 --name movie -dit ghcr.io/${{secrets.GHCR_USERNAME}}/movie_app:latest_amd64
